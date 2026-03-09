@@ -1,53 +1,47 @@
-# MEA – Modbus Exposure Analyzer
+# MEA – Modbus Exposure Analyzer (Python) (MIT License)
 
-MEA is a behavioral analysis tool designed to identify exposed, simulated, or non-responsive Modbus devices through passive register analysis.
-Future versions will expand network intelligence, passive discovery, and device fingerprinting.
-
-This tool is built for **pentesters, security researchers, and blue teams** working with ICS/OT environments.
+**A specialized security intelligence tool designed to rapidly assess the behavioral patterns and internet exposure risks of Modbus devices in critical Industrial Control Systems (ICS) and Operational Technology (OT) environments.**
 
 ---
 
-## Features
+## Why This Exists
+Industrial Control Systems (ICS) and Operational Technology (OT) networks are increasingly targeted, yet often contain legacy Modbus devices that are unintentionally exposed or poorly understood. MEA fills a critical gap by providing security teams with a clear, data-driven methodology to unmask these hidden risks, differentiate genuine devices from sophisticated decoys, and prioritize defenses in environments where disruption is not an option.
 
-* Modbus TCP connectivity (port 502)
-* Register collection with rate limiting
-* Entropy analysis of register values
-* Behavioral change detection over time
-* Simulator / fixed-dataset detection
-* Public exposure assessment
-* IP ownership lookup (WHOIS)
-* Risk scoring engine
-* Console output
-* JSON and Markdown reporting
+---
+
+## What It Does
+*   **Safe & Focused Modbus Interaction**: Establishes Modbus TCP connectivity with built-in rate limiting, ensuring controlled interaction that minimizes risk to sensitive OT systems during analysis.
+*   **Behavioral Anomaly Detection**: Employs advanced entropy and change-rate analysis on register values to detect subtle behavioral shifts, helping identify fixed-dataset simulators (honeypots) or compromised devices.
+*   **Real-time Exposure Context**: Integrates IP ownership (WHOIS) lookup to provide critical context on public vs. private network exposure, pinpointing devices in datacenters or publicly accessible infrastructure.
+*   **Actionable Risk Scoring**: Consolidates diverse data points—from register behavior to network context—into a unified risk score, enabling quick prioritization for pentesters, security researchers, and blue teams.
+*   **Flexible Reporting**: Generates both machine-readable JSON and human-friendly Markdown reports, facilitating integration into security workflows or direct communication to stakeholders.
 
 ---
 
 ## How It Works
+MEA operates by systematically profiling Modbus devices:
 
-MEA connects to a Modbus device and collects multiple register snapshots.
-
-It then analyzes:
-
-* **Entropy** – randomness of values
-* **Change rate** – how values evolve over time
-* **Exposure level** – public vs private network
-* **Infrastructure context** – ISP / datacenter ownership
-
-The results are combined into a risk evaluation.
+1.  **Connection & Collection**: Connects to the target Modbus device (typically on port 502) and captures multiple snapshots of its register values. A critical rate-limiting mechanism is applied to ensure the stability of OT environments.
+2.  **Behavioral Analysis**: The collected register data undergoes rigorous analysis. This includes calculating the statistical entropy of values and tracking their change rate over time, which are key indicators for detecting anomalies or fixed datasets.
+3.  **Network Intelligence**: Simultaneously, the tool performs an IP WHOIS lookup to determine the device's exposure level (public vs. private) and identify the owning entity (e.g., ISP, datacenter).
+4.  **Risk Synthesis**: All analytical outputs—behavioral patterns, exposure level, and infrastructure context—are fed into a proprietary risk engine to generate a comprehensive risk evaluation.
+5.  **Reporting**: The final assessment is presented in console output and detailed JSON and Markdown reports for various consumption needs.
 
 ---
 
-## Installation
+## Tech Stack
+*   **`pymodbus`**: Chosen for robust and reliable Modbus TCP client communication, essential for interacting with diverse industrial devices.
+*   **`ipwhois`**: Utilized for efficient IP ownership lookups, providing critical external context for exposure assessment.
+
+---
+
+## Getting Started
 
 ```bash
 git clone https://github.com/404saint/mea.git
 cd mea
 pip install -r requirements.txt
 ```
-
----
-
-## Usage
 
 Run the interactive analyzer:
 
@@ -65,12 +59,10 @@ Enter the target IP when prompted.
 
 Reports will be generated:
 
-* `report.json`
-* `report.md`
+*   `report.json`
+*   `report.md`
 
----
-
-## Example Output
+**Example Output**
 
 ```
 Device classified as: Possible Simulator or Fixed Dataset
@@ -81,18 +73,9 @@ Risk Level: High
 
 ---
 
-## Use Cases
-
-* Identify exposed Modbus services on the internet
-* Detect honeypots or simulated devices
-* Validate ICS exposure during penetration tests
-* Security monitoring for OT environments
-
----
-
 ## Project Structure
 
-```
+```text
 core/        Connection and data collection
 analysis/    Entropy and behavior analysis
 network/     IP context and exposure
@@ -101,35 +84,16 @@ reporting/   Output formats
 utils/       Logging
 ```
 
----
+--,-
 
 ## Security Notice
-
-This tool is intended for **authorized security testing and research only**.
-
-Do not scan or interact with systems without proper permission.
-
----
-
-## Roadmap (v2 – Coming Soon)
-
-Planned improvements:
-
-* MAC address discovery (local networks)
-* Device fingerprinting and vendor guessing
-* Passive Modbus function analysis
-* Continuous monitoring mode
-* Anomaly detection alerts
-* ICS asset inventory mode
-
----
-
-## Author
-
-Security research project focused on practical ICS/OT exposure analysis.
+This tool is intended for **authorized security testing and research only**. Do not scan or interact with systems without proper permission.
 
 ---
 
 ## License
-
 MIT License
+
+
+---
+<sub>README generated by [LucidRepos](https://lucidrepos.site) — AI-powered documentation for GitHub repos.</sub>
